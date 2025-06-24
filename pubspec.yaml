@@ -1,0 +1,32 @@
+name: meteo
+description: App meteo Flutter completa
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  http: ^1.1.0
+  shared_preferences: ^2.1.2
+  lottie: ^3.1.0
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/animations/
+    - assets/icon/
+
+flutter_icons:
+  android: true
+  image_path: "assets/icon/app_icon.png"
