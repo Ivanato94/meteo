@@ -12,9 +12,9 @@ Meteo è un'applicazione Flutter completa che fornisce informazioni meteorologic
 ## Panoramica dell'Esperienza Utente
 L'utente accede all'app e trova una schermata di benvenuto con animazioni meteo. Toccando "Cerca città" si apre un overlay dove può digitare il nome della città (minimo 2 caratteri) e ricevere suggerimenti in tempo reale tramite geocoding API. Selezionando dalla lista o premendo "Cerca", viene mostrata una schermata completa con card meteo principale (temperatura, descrizione, icona animata), griglia informazioni dettagliate (alba/tramonto, umidità, vento, visibilità, pressione) e lista previsioni 5 giorni con temperature min/max. L'utente può salvare città nei preferiti tramite l'icona cuore e accedervi dal menu drawer laterale. Le città salvate sono accessibili dalla schermata preferiti dove si può visualizzare il meteo di tutte le città e rimuoverle. Il tema può essere cambiato tra chiaro e scuro dal drawer.
 
-![Schermata Principale](screenshots/home_screen.png)
+<img src="screenshots/home_screen.png" width="250" alt="Schermata Principale">
 
-![Dettaglio Meteo](screenshots/weather_detail.png)
+<img src="screenshots/weather_detail.png" width="250" alt="Dettaglio Meteo">
 
 ## Tecnologie
 
