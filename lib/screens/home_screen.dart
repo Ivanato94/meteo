@@ -18,39 +18,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        leading: Consumer<WeatherProvider>(
-          builder: (context, weatherProvider, child) {
-            return weatherProvider.currentWeather != null
+    return Consumer<WeatherProvider>(
+      builder: (context, weatherProvider, child) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            leading: weatherProvider.currentWeather != null
                 ? IconButton(
                     icon: const Icon(Icons.arrow_back), 
                     onPressed: () => weatherProvider.clearCurrentWeather()
                   )
-                : const SizedBox.shrink();
-          },
-        ),
-      ),
-      drawer: const AppDrawer(),
-      body: Stack(
-        children: [
-          Consumer<WeatherProvider>(
-            builder: (context, provider, _) {
-              if (provider.error != null && provider.currentWeather == null) return _buildWelcomeView();
-              return provider.currentWeather != null 
-                ? _buildWeatherView(provider.currentWeather!, provider.currentForecast)
-                : _buildWelcomeView();
-            },
+                : null,
+            automaticallyImplyLeading: weatherProvider.currentWeather == null,
           ),
-          if (_showSearch) SearchOverlay(
-            onClose: () => setState(() => _showSearch = false),
-            onSearch: (city) => _handleSearch(city),
+          drawer: const AppDrawer(),
+          body: Stack(
+            children: [
+              weatherProvider.error != null && weatherProvider.currentWeather == null 
+                  ? _buildWelcomeView()
+                  : weatherProvider.currentWeather != null 
+                      ? _buildWeatherView(weatherProvider.currentWeather!, weatherProvider.currentForecast)
+                      : _buildWelcomeView(),
+              if (_showSearch) SearchOverlay(
+                onClose: () => setState(() => _showSearch = false),
+                onSearch: (city) => _handleSearch(city),
+              ),
+            ],
           ),
-        ],
-      ),
-      floatingActionButton: _buildConditionalFloatingButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: _buildConditionalFloatingButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        );
+      },
     );
   }
 
@@ -229,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(weather.cityName, style: TextStyle(fontSize: isWide ? 32 : 24, fontWeight: FontWeight.bold, color: Colors.white)),
-              Text('${weather.country} • ${weather.daylightInfo}', style: TextStyle(fontSize: isWide ? 14 : 12, color: Colors.white70)),
+              Text('${weather.country} • 🕐 ${weather.oraAttuale} • ${weather.daylightInfo}', style: TextStyle(fontSize: isWide ? 14 : 12, color: Colors.white70)),
             ],
           )),
           _buildControls(weather, isWide),

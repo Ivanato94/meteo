@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'dart:math' as math;
 
 class WeatherData {
   final String cityName, country, description, icon;
@@ -58,6 +58,13 @@ class WeatherData {
     } else {
       return 'Tramonto tra ${_formatDuration(citySunset.difference(cityTime))}';
     }
+  }
+
+  // NUOVA FUNZIONE: Orario attuale della città
+  String get oraAttuale {
+    final utcNow = DateTime.now().toUtc();
+    final cityTime = utcNow.add(Duration(seconds: timezoneOffset));
+    return '${cityTime.hour.toString().padLeft(2, '0')}:${cityTime.minute.toString().padLeft(2, '0')}';
   }
 
   String _formatDuration(Duration duration) => duration.inHours > 0 
@@ -187,10 +194,10 @@ class WeatherIconPainter extends CustomPainter {
     final rayPaint = Paint()..color = const Color(0xFFFFEB3B)..strokeWidth = size * 0.02..strokeCap = StrokeCap.round;
 
     for (int i = 0; i < 8; i++) {
-      final angle = (i * 45) * (pi / 180);
+      final angle = (i * 45) * (math.pi / 180);
       canvas.drawLine(
-        Offset(center.dx + (radius + size * 0.05) * cos(angle), center.dy + (radius + size * 0.05) * sin(angle)),
-        Offset(center.dx + (radius + size * 0.15) * cos(angle), center.dy + (radius + size * 0.15) * sin(angle)),
+        Offset(center.dx + (radius + size * 0.05) * math.cos(angle), center.dy + (radius + size * 0.05) * math.sin(angle)),
+        Offset(center.dx + (radius + size * 0.15) * math.cos(angle), center.dy + (radius + size * 0.15) * math.sin(angle)),
         rayPaint,
       );
     }
@@ -238,10 +245,10 @@ class WeatherIconPainter extends CustomPainter {
     final rayPaint = Paint()..color = const Color(0xFFFFEB3B)..strokeWidth = size * 0.015..strokeCap = StrokeCap.round;
 
     for (int i = 0; i < 4; i++) {
-      final angle = (i * 90 - 45) * (pi / 180);
+      final angle = (i * 90 - 45) * (math.pi / 180);
       canvas.drawLine(
-        Offset(sunCenter.dx + (sunRadius + size * 0.03) * cos(angle), sunCenter.dy + (sunRadius + size * 0.03) * sin(angle)),
-        Offset(sunCenter.dx + (sunRadius + size * 0.08) * cos(angle), sunCenter.dy + (sunRadius + size * 0.08) * sin(angle)),
+        Offset(sunCenter.dx + (sunRadius + size * 0.03) * math.cos(angle), sunCenter.dy + (sunRadius + size * 0.03) * math.sin(angle)),
+        Offset(sunCenter.dx + (sunRadius + size * 0.08) * math.cos(angle), sunCenter.dy + (sunRadius + size * 0.08) * math.sin(angle)),
         rayPaint,
       );
     }
