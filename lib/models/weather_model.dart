@@ -26,6 +26,7 @@ class WeatherData {
       icon: json['weather'][0]['icon'], humidity: json['main']['humidity'],
       windSpeed: json['wind']['speed'].toDouble(), pressure: json['main']['pressure'],
       feelsLike: json['main']['feels_like'].toDouble(), timestamp: DateTime.now(),
+      
       sunrise: DateTime.fromMillisecondsSinceEpoch((json['sys']['sunrise'] + timezoneOffset) * 1000, isUtc: true),
       sunset: DateTime.fromMillisecondsSinceEpoch((json['sys']['sunset'] + timezoneOffset) * 1000, isUtc: true),
       lat: json['coord']['lat'].toDouble(), lon: json['coord']['lon'].toDouble(),
@@ -37,30 +38,27 @@ class WeatherData {
   bool get isDayTime {
     final utcNow = DateTime.now().toUtc();
     final cityTime = utcNow.add(Duration(seconds: timezoneOffset));
-    final cityDate = DateTime(cityTime.year, cityTime.month, cityTime.day);
-    final citySunrise = DateTime(cityDate.year, cityDate.month, cityDate.day, sunrise.hour, sunrise.minute);
-    final citySunset = DateTime(cityDate.year, cityDate.month, cityDate.day, sunset.hour, sunset.minute);
-    return cityTime.isAfter(citySunrise) && cityTime.isBefore(citySunset);
+    
+    
+    return cityTime.isAfter(sunrise) && cityTime.isBefore(sunset);
   }
 
   String get daylightInfo {
     final utcNow = DateTime.now().toUtc();
     final cityTime = utcNow.add(Duration(seconds: timezoneOffset));
-    final cityDate = DateTime(cityTime.year, cityTime.month, cityTime.day);
-    final citySunrise = DateTime(cityDate.year, cityDate.month, cityDate.day, sunrise.hour, sunrise.minute);
-    final citySunset = DateTime(cityDate.year, cityDate.month, cityDate.day, sunset.hour, sunset.minute);
     
-    if (cityTime.isBefore(citySunrise)) {
-      return 'Alba tra ${_formatDuration(citySunrise.difference(cityTime))}';
-    } else if (cityTime.isAfter(citySunset)) {
-      final tomorrowSunrise = citySunrise.add(const Duration(days: 1));
+    
+    if (cityTime.isBefore(sunrise)) {
+      return 'Alba tra ${_formatDuration(sunrise.difference(cityTime))}';
+    } else if (cityTime.isAfter(sunset)) {
+      final tomorrowSunrise = sunrise.add(const Duration(days: 1));
       return 'Alba tra ${_formatDuration(tomorrowSunrise.difference(cityTime))}';
     } else {
-      return 'Tramonto tra ${_formatDuration(citySunset.difference(cityTime))}';
+      return 'Tramonto tra ${_formatDuration(sunset.difference(cityTime))}';
     }
   }
 
-  // NUOVA FUNZIONE: Orario attuale della città
+  
   String get oraAttuale {
     final utcNow = DateTime.now().toUtc();
     final cityTime = utcNow.add(Duration(seconds: timezoneOffset));
